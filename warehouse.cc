@@ -10,15 +10,16 @@
 #include <string>
 #include "item.h"
 #include "date.h"
+#include "warehouse.h"
 #include <set>
 
 namespace inventory
 {
 	// Constructor
-	warehouse::warehouse(string name)
+	warehouse::warehouse(std::string name)
 	{
 		this->name = name;
-		this->busiest = NULL;
+		this->busiest = new date*;
 		this->inventory = NULL;
 		this->transactionDayCount = 0;
 	}
@@ -27,9 +28,9 @@ namespace inventory
 	* Adds an item to the warehouse inventory.  Takes a UPC, a quantity, and an expiration date
 	* 
 	*/
-   void itemReceive(int upc, int quantity, date expiration)
+   void warehouse::itemReceive(int upc, int quantity, date expiration)
    {
-	   transactionDayCount++;
+	   this->transactionDayCount += 1;
 	   item rec_item = item(upc, expiration, quantity);
 	   this->inventory.insert(rec_item);
    }
@@ -40,14 +41,14 @@ namespace inventory
    * Returns 0 if out of stock, or the number of items 'shipped' out.  
    * The quanitity shipped may differ from the quanitity ordered.
    */
-   int itemRequest(int upc, int quantity)
+   int warehouse::itemRequest(int upc, int quantity)
    {   
 	   int shipped = 0;
 	   
-	   if (this->inventory = NULL)
+	   if (this->inventory == NULL)
 		   return 0;
 	   
-	   ourinventory* = this->inventory;
+	   std::set<item> *ourinventory = this->inventory;
 	   std::set<item>::iterator it;
 	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
 	   {
@@ -80,7 +81,7 @@ namespace inventory
    * Simply returns true if an item is in stock, false otherwise
    * Used for reporting generation purposes.
    */
-   bool isInStock(int upc)
+   bool warehouse::isInStock(int upc)
    {
 	   ourinventory* = this->inventory;
 	   std::set<item>::iterator it;
@@ -106,7 +107,7 @@ namespace inventory
    * Scan the inventory for items that expire on the 'current' date
    * Remove them from the inventory.
    */
-   void clearExpiredForDay(date current)
+   void warehouse::clearExpiredForDay(date current)
    {
 	   ourinventory* = this->inventory;
 	   std::set<item>::iterator it;
@@ -136,7 +137,7 @@ namespace inventory
    }
    
    
-   date busiestDay()
+   date warehouse::busiestDay()
    {
 	   return this->busiest;
    }

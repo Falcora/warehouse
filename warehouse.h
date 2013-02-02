@@ -10,23 +10,25 @@
  #define WAREHOUSE_H
 
 #include <string>
+#include <set>
 #include "item.h"
 
 namespace inventory
 {
 	class date;
+	class item;
   
 	class warehouse
 	{
 	public:	
-	   warehouse(string name);      // Constructor
+	   warehouse(std::string name);      // Constructor
 	  
 	   void itemReceive(int upc, int quantity, date expiration);
 	   int itemRequest(int upc, int quantity);
 	   bool isInStock(int upc);
 	   void clearExpiredForDay(date current);
 	   date busiestDay();
-	   string name;
+	   std::string name;
 	   std::set<item> inventory;
 	   
 	private:

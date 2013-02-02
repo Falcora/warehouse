@@ -32,33 +32,33 @@ namespace inventory
 		this->quantity = quantity;
 	}
 	
-   void setExpiration(date expire)
+   void item::setExpiration(date expire)
    {
 	   this->expiration = expire;
    }
    
-   date getExpiration()
+   date item::getExpiration()
    {
 	   return this->expiration;
    }
    
-   int getQuantity()
+   int item::getQuantity()
    {
 	   return this->quantity;
    }
    
-   void setQuantity(int quantity)
+   void item::setQuantity(int quantity)
    {
 	   this->quantity = quantity;
    }
 	
-   int item::getUPC()
+   int item::item::getUPC()
    {
 	   return this->upc;
    }
    
    
-   int item::getShelfLife()
+   int item::item::getShelfLife()
    {
 	   return this->shelf;
    }
