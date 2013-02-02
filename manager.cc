@@ -168,6 +168,13 @@ int main(int argc, char* argv[]){
 		  // call the next day function
 			startDate.advanceDay();
 			++it;
+			// Cycle through the warehouses and call their next day function.
+			inventory::warehouse *house = new inventory::warehouse("temp");
+			for(set<inventory::warehouse>::iterator houses = warehouses.begin(); houses != warehouses.end(); ++houses) 
+			{
+				inventory::warehouse house = *houses;
+				house.clearExpiredForDay(startDate);
+			}
 		  next = true;
 		}
 		  else if(*it == "Request" || request)
