@@ -19,7 +19,7 @@ namespace inventory
 	warehouse::warehouse(std::string name)
 	{
 		this->name = name;
-		this->busiest = new date*;
+		this->busiest = date();
 		this->inventory = NULL;
 		this->transactionDayCount = 0;
 	}
@@ -45,10 +45,11 @@ namespace inventory
    {   
 	   int shipped = 0;
 	   
-	   if (this->inventory == NULL)
+	   if (inventory == NULL)
 		   return 0;
 	   
-	   std::set<item> *ourinventory = this->inventory;
+	   std::set<item> *ourinventory;
+	   ourinventory = this->inventory;
 	   std::set<item>::iterator it;
 	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
 	   {
@@ -83,7 +84,8 @@ namespace inventory
    */
    bool warehouse::isInStock(int upc)
    {
-	   ourinventory* = this->inventory;
+	   std::set<item> *ourinventory;
+	   ourinventory = this->inventory;
 	   std::set<item>::iterator it;
 	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
 	   {
