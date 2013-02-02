@@ -10,23 +10,33 @@
  #define ITEM_H
 
  #include<string>
+ #include "date.h"
 
  namespace inventory
  {
+	 class date;
   
    class item
    {
    public:	
-       item(int upc, int shelf, string name);      // Constructor
+       item(int upc, int shelf, std::string name);      // Constructor
+	   item(int upc, date expiration, int quantity);
+	   
 	  
 	   int getUPC();
 	   int getShelfLife();
-	   string getName();
+	   std::string getName();
+	   date getExpiration();
+	   void setExpiration(date expire);
+	   int getQuantity();
+	   void setQuantity(int quantity);
 	   
    private:
 	   int upc;
 	   int shelf;
-	   string name;
+	   std::string name;
+	   date expiration;
+	   int quantity;
    };
 }
 

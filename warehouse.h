@@ -9,7 +9,8 @@
  #ifndef WAREHOUSE_H
  #define WAREHOUSE_H
 
-#include<string>
+#include <string>
+#include "item.h"
 
 namespace inventory
 {
@@ -25,10 +26,13 @@ namespace inventory
 	   bool isInStock(int upc);
 	   void clearExpiredForDay(date current);
 	   date busiestDay();
+	   string name;
+	   std::set<item> inventory;
 	   
 	private:
-	   string name;
 	   date busiest;
+	   int transactionDayCount;
+	   int busiestCount;
 	};
 }
 

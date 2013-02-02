@@ -10,6 +10,7 @@
 #include <string>
 #include "item.h"
 #include "date.h"
+#include <set>
 
 namespace inventory
 {
@@ -18,6 +19,8 @@ namespace inventory
 	{
 		this->name = name;
 		this->busiest = NULL;
+		this->inventory = NULL;
+		this->transactionDayCount = 0;
 	}
 	
 	/*
@@ -26,7 +29,9 @@ namespace inventory
 	*/
    void itemReceive(int upc, int quantity, date expiration)
    {
-	   // Add to inventory
+	   transactionDayCount++;
+	   item rec_item = item(upc, expiration, quantity);
+	   this->inventory.insert(rec_item);
    }
    
    
@@ -36,7 +41,37 @@ namespace inventory
    * The quanitity shipped may differ from the quanitity ordered.
    */
    int itemRequest(int upc, int quantity)
-   {
+   {   
+	   int shipped = 0;
+	   
+	   if (this->inventory = NULL)
+		   return 0;
+	   
+	   ourinventory* = this->inventory;
+	   std::set<item>::iterator it;
+	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
+	   {
+		   if (it.getUPC() == upc)
+		   {
+			   // Found item.  (is this the oldest?  (Should be because it starts at beginning)
+			   if (it.getQuantity >= quantity)
+			   {
+				   it.setQuantity(it.getQuantity - quantity);
+				   shipped = quantity;
+				   transactionDayCount++;
+				   return shipped;
+			   }
+			   else if (it.getQuantity > 0)
+			   {
+				   int available = it.getQuantity;
+			   	   it.setQuantity(0);
+				   shipped = available;
+				   transactionDayCount++;
+				   return shipped;
+			   }
+			
+		   }
+	   }
 	   return 0;
    }
    
@@ -47,7 +82,23 @@ namespace inventory
    */
    bool isInStock(int upc)
    {
-	   return true;
+	   ourinventory* = this->inventory;
+	   std::set<item>::iterator it;
+	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
+	   {
+		   if (it.getUPC() == upc)
+		   {
+			   // Found item.  
+			   if (it.getQuantity > 0)
+			   {
+				   return true;
+			   }
+			
+		   }
+	   }
+	   
+	   
+	   return false;
    }
    
    
@@ -57,7 +108,31 @@ namespace inventory
    */
    void clearExpiredForDay(date current)
    {
-	   // Clear
+	   ourinventory* = this->inventory;
+	   std::set<item>::iterator it;
+	   date expiration;
+	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
+	   {
+		   expiration = it.getExpiration();
+		   if (expiration.getMonth() == current.getMonth())
+		   {
+			   if (expiration.getDay() == current.getDay())
+			   {
+				   if (expiration.getYear() == current.getYear())
+				   {
+					   ourinventory.erase(it);
+				   }
+			   }
+		   }
+	   }
+	   
+	   // Reset busiest count, update if neccessary
+	   if (busiestCount < transactionDayCount)
+	   {
+		   busiestCount = transactionDayCount;
+		   busiest = current;
+	   }
+	   
    }
    
    
