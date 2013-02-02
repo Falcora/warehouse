@@ -4,19 +4,27 @@
  */
 
 #include "manager.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <set>
+using namespace std;
+using namespace inventory;
 
 int main(int argc, char* argv[]){
   if(argc >2 || argc < 2)
-    {
-      cout << "Please include a filename." << endl;
-      return 1;
-    }
-  string filename = args[1];
+	{
+	  cout << "Please include a filename." << endl;
+	  return 1;
+	}
+  string filename = argv[1];
   ifstream inputfile(filename);
   string line;
+  
+  set<item> items;			// Create a set to hold our items.
   if(inputfile.is_open())
-    {
-      while(inputfile.good())
+	{
+	  while(inputfile.good())
 	{
 	  getline(inputfile,line, ' ');
 	  // The current line is held in 'line'
@@ -30,7 +38,7 @@ int main(int argc, char* argv[]){
 	  vector<string> tokens; // Create vector to hold our words
 
 	  while (ss >> buf)
-	    tokens.push_back(buf);
+		tokens.push_back(buf);
 	  // our line is separated as tokens in the tokens vector
 	  
 	  // Set up boolean variables to control the following if statements
@@ -42,63 +50,82 @@ int main(int argc, char* argv[]){
 	  bool request = false;
 	  bool end = false;
 
-	  for(std::vector<string>::iterator it = tokens.begin(); it != tokens.end(); ++it) 
-	    {
-	      // here we check what the inital token is
-	      if(*it == "FoodItem" || food)
+	  for(std::vector<std::string>::iterator it = tokens.begin(); it != tokens.end(); ++it) 
+		{
+		  // here we check what the inital token is
+		  if(*it == "FoodItem" || food)
 		{
 		  if(food)
-		    {
-		      // create a food item.
-		      item food = new item(line.substr(21,10);
-		    }
+			{
+				++it;
+				++it;
+				++it;
+				++it;
+				string upcCode = *it;
+				int upc = atoi(upcCode.c_str());
+				++it;
+				++it;
+				++it;
+				string shelfLife = *it;
+				int shelf = atoi(shelfLife.c_str());
+				
+				std::string::size_type n;
+				n = line.find("Name:");
+				n = n + 6;
+				string name = line.substr(n);
+			  // create a food item.
+			  item *food = new item(upc,2,name);
+			  // add the new food item to our hashset
+			  items.insert(food);
+			  break;
+			}
 		  food = true;
 		}
-	      else if(*it == "Warehouse" || warehouse)
+		  else if(*it == "Warehouse" || warehouse)
 		{
 		  // Create warehouse
 
 
 		  warehouse = true;
 		}
-	      else if(*it == "Start" || start)
+		  else if(*it == "Start" || start)
 		{
 		  // Set start date
 
 		  start = true;
 		}
-	      else if(*it == "Receive" || receive)
+		  else if(*it == "Receive" || receive)
 		{
 		  // call the receive function on the right warehouse
 
 		  receive = true;
 		}
-	      else if(*it == "Next" || next)
+		  else if(*it == "Next" || next)
 		{
 		  // call the next day function
 
 		  next = true;
 		}
-	      else if(*it == "Request" || request)
+		  else if(*it == "Request" || request)
 		{
 		  // call the request function
 
 		  request = true;
 		}
-	      else if(*it == "End" || end)
+		  else if(*it == "End" || end)
 		{
 		  // Call the end function
 
 		  end = true;
 		}
-	    }
+	}
+	  
+}
+	  // The input file has been read.  Close it.
+	  inputfile.close();
+	  // Now prepare and send the report.
 	  
 	}
-      // The input file has been read.  Close it.
-      inputfile.close();
-      // Now prepare and send the report.
-      
-    }
   else cout << "Unable to open the file." << endl;
 
 
