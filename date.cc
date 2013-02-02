@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <string>
+#include "date.h"
 
 namespace inventory
 {
@@ -16,19 +17,22 @@ namespace inventory
 		this->month = 1;
 		this->day = 1;
 		this->year = 2001;
-		this->set = FALSE;
+		this->set = false;
 	}
 	
-	void date::setDate(std::string mm, std::string dd, std::string yyyy)
+	void date::setDate(int mm, int dd, int yyyy)
 	{
 		this->month = mm;
 		this->day = dd;
 		this->year = yyyy;
-		this->set = TRUE;
+		this->set = true;
 	}
 	
 	void date::advanceDay()
 	{
+		
+		
+		
 		// JAN MAR MAY JUL AUG OCT
 		if (this->month == 1 || this->month == 3 || this->month == 5 || 
 			this->month == 7 || this->month == 8 || this->month == 10)
@@ -69,13 +73,13 @@ namespace inventory
 			// Check leap year (Pseudo algorithm from wikipedia)
 			bool isleap;
 			if (this->year % 400 == 0)
-				isleap = TRUE;
+				isleap = true;
 			else if (this->year % 100 == 0)
-				isleap = FALSE;
+				isleap = false;
 			else if (this->year % 4 == 0)
-				isleap = TRUE;
+				isleap = true;
 			else
-				isleap = FALSE;
+				isleap = false;
 			// END leap year check
 			
 			
@@ -132,17 +136,17 @@ namespace inventory
 		
 	}
 	
-	int getMonth()
+	int date::getMonth()
 	{
    		return this->month;
 	}
    
-	int getDay()
+	int date::getDay()
 	{
    		return this->day;
 	}
    
-	int getYear()
+	int date::getYear()
 	{
    		return this->year;
 	}

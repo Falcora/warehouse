@@ -9,25 +9,27 @@
  #ifndef WAREHOUSE_H
  #define WAREHOUSE_H
 
- #include<string>
+#include<string>
 
- namespace inventory
- {
+namespace inventory
+{
+	class date;
   
-   class warehouse
-   {
-   public:	
-       warehouse(string name);      // Constructor
+	class warehouse
+	{
+	public:	
+	   warehouse(string name);      // Constructor
 	  
-	   int itemReceive(int upc);
-	   int itemRequest(int upc);
+	   void itemReceive(int upc, int quantity, date expiration);
+	   int itemRequest(int upc, int quantity);
 	   bool isInStock(int upc);
+	   void clearExpiredForDay(date current);
 	   date busiestDay();
 	   
-   private:
+	private:
 	   string name;
-	   
-   };
+	   date busiest;
+	};
 }
 
 #endif

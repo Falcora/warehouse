@@ -13,17 +13,14 @@
 
  namespace inventory
  {
-   // class node;  // A forward declaration of the class.  We can now
-   //                 // create pointer variables involving the node class.
   
    class date
    {
    public:	
        date();      // Constructor
-       ~date();     // Destructor
 	   
 	   void advanceDay();
-	   void setDate(std::string mm, std::string dd, std::string yyyy);
+	   void setDate(int mm, int dd, int yyyy);
 	   int getMonth();
 	   int getDay();
 	   int getYear();

@@ -9,33 +9,63 @@
 #include <iostream>
 #include <string>
 #include "item.h"
+#include "date.h"
 
 namespace inventory
 {
-	item::item(int upc, int shelf, string name)
+	// Constructor
+	warehouse::warehouse(string name)
 	{
-		this->upc = upc;
-		this->shelf = shelf;
 		this->name = name;
+		this->busiest = NULL;
 	}
 	
-	
-   int item::getUPC()
+	/*
+	* Adds an item to the warehouse inventory.  Takes a UPC, a quantity, and an expiration date
+	* 
+	*/
+   void itemReceive(int upc, int quantity, date expiration)
    {
-	   return this->upc;
+	   // Add to inventory
    }
    
    
-   int item::getShelfLife()
+   /*
+   * Indicates a request for an item in the warehouse.
+   * Returns 0 if out of stock, or the number of items 'shipped' out.  
+   * The quanitity shipped may differ from the quanitity ordered.
+   */
+   int itemRequest(int upc, int quantity)
    {
-	   return this->shelf;
+	   return 0;
    }
    
    
-   string item::getName()
+   /*
+   * Simply returns true if an item is in stock, false otherwise
+   * Used for reporting generation purposes.
+   */
+   bool isInStock(int upc)
    {
-	   return this->name;
+	   return true;
    }
+   
+   
+   /*
+   * Scan the inventory for items that expire on the 'current' date
+   * Remove them from the inventory.
+   */
+   void clearExpiredForDay(date current)
+   {
+	   // Clear
+   }
+   
+   
+   date busiestDay()
+   {
+	   return this->busiest;
+   }
+
 	
 	
 }
