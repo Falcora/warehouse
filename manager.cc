@@ -166,19 +166,44 @@ int main(int argc, char* argv[]){
 		  else if(*it == "Next" || next)
 		{
 		  // call the next day function
-			
+			startDate.advanceDay();
+			++it;
 		  next = true;
 		}
 		  else if(*it == "Request" || request)
 		{
-		  // call the request function
+		  if(request)
+		  {
+			  string requestingUPC = *it;
+			  int requestUPC = atoi(requestingUPC.c_str());
 
+			  // Now get the quantity
+			  ++it;
+			  string reqQu = *it;
+			  int requestedQuantity = atoi(reqQu.c_str());
+
+			  // Now get the warehouse from where the items will be deducted.
+			  ++it;
+			  string reqHouse = *it;
+			  inventory::warehouse *requestWarehouse = new inventory::warehouse("temp");
+				for(set<inventory::warehouse>::iterator houses = warehouses.begin(); houses != warehouses.end(); ++houses) 
+				{
+					inventory::warehouse tempReqHouse = *houses;
+					if(reqHouse == tempReqHouse.name)
+					{
+						*requestWarehouse = tempReqHouse;
+						break;
+					}
+				}
+			// Now attempt to deduct the items.
+				requestWarehouse->itemRequest(requestUPC,requestedQuantity);
+		  }
 		  request = true;
 		}
 		  else if(*it == "End" || end)
 		{
 		  // Call the end function
-
+			report(items,warehouses);
 		  end = true;
 		}
 	}
@@ -193,5 +218,83 @@ int main(int argc, char* argv[]){
 
 
 
-  return 0;
+  return 0;  // Exit the program.
+}
+/*
+ * This function prints out the report
+ */
+void report(set<item> items, set<warehouse> warehouses){
+	cout << "Report by Fernando Gomez, Seth Porter" << endl;
+	cout << endl;
+	cout << "Unstocked Products:" << endl;
+
+	// Determine which products do not exist in any warehouse.
+	// Cycle through all the items, and see if they are in stock.
+
+	item *tempItem = new item(0,0,"temp");
+	for(set<item>::iterator it = items.begin(); it != items.end(); ++it) 
+	{
+		item tempItem = *it;
+		int itemUPC = tempItem.getUPC();
+		// Cycle through the warehouses and see if tempItem is unstocked
+		bool inStock = false;
+		inventory::warehouse *tempHouse = new inventory::warehouse("temp");
+		for(set<inventory::warehouse>::iterator houses = warehouses.begin(); houses != warehouses.end(); ++houses) 
+		{
+			tempHouse = *houses;
+			if(tempHouse->isInStock(itemUPC))
+			{
+				inStock = true;  // If item exists in any warehouse, then it is in stock.
+			}
+		}
+		//if item was not in stock, print it out.
+		if(!inStock)
+		{
+			cout << itemUPC << " " << tempItem.getName() << endl;
+		}
+	}
+	cout << endl;
+
+	// Determine which products still exist in every warehouse.
+
+	cout << "Fully-Stocked Products:" << endl;
+
+	item *tempStockItem = new item(0,0,"temp");
+	for(set<item>::iterator it = items.begin(); it != items.end(); ++it) 
+	{
+		item tempStockItem = *it;
+		int StockItemUPC = tempStockItem.getUPC();
+		// Cycle through the warehouses and see if tempItem is fully stocked.
+		bool fullyStocked = true;
+		inventory::warehouse *tempHouse = new inventory::warehouse("temp");
+		for(set<inventory::warehouse>::iterator houses = warehouses.begin(); houses != warehouses.end(); ++houses) 
+		{
+			tempHouse = *houses;
+			if(!tempHouse->isInStock(StockItemUPC))
+			{
+				fullyStocked = false;  // If item doesn't exist in a warehouse, then it is not fully stocked.
+			}
+		}
+		//if item was fully stocked, print it out.
+		if(fullyStocked)
+		{
+			cout << StockItemUPC << " " << tempStockItem.getName() << endl;
+		}
+	}
+	cout << endl;
+
+	// Determine the single busiest days for each warehouse.
+
+	cout << "Busiest Days:" << endl;
+
+	inventory::warehouse *tempBusyHouse = new inventory::warehouse("temp");
+	for(set<inventory::warehouse>::iterator houses = warehouses.begin(); houses != warehouses.end(); ++houses) 
+	{
+		tempBusyHouse = *houses;
+		inventory::date busy = tempBusyHouse->busiestDay();
+
+		cout << tempBusyHouse->name << " " << busy.getMonth() << "/" << busy.getDay() << "/" << busy.getYear() << " "  /*  << here we need a way to get the # of transactions */ << endl;
+	}
+
+	// Report is done.
 }
