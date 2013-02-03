@@ -2,7 +2,9 @@
 *
 * Written by:
 * Seth Porter
-* January 31, 2013
+* Fernando Gomez
+* February 2, 2013
+*
 *
 */
 
@@ -37,6 +39,11 @@ namespace inventory
 	   this->inventory.insert(rec_item);
    }
    
+   
+   int getBusiestCount()
+   {
+	   return this->busiestCount;
+   }
    
    /*
    * Indicates a request for an item in the warehouse.

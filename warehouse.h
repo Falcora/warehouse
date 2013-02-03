@@ -2,7 +2,8 @@
  *
  * Written by:
  * Seth Porter
- * January 31, 2013
+ * Fernando Gomez
+ * February 2, 2013
  *
  */
 	 
@@ -28,6 +29,7 @@ namespace inventory
 	   bool isInStock(int upc);
 	   void clearExpiredForDay(date current);
 	   date busiestDay();
+	   int getBusiestCount();
 	   std::string name;
 	   std::set<item> inventory;
 	   
