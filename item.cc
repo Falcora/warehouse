@@ -19,7 +19,7 @@ namespace inventory
 		this->upc = upc;
 		this->shelf = shelf;
 		this->name = name;
-		this->expiration = new date();
+		this->expiration = date();
 		this->quantity = 0;
 	}
 	
@@ -52,13 +52,13 @@ namespace inventory
 	   this->quantity = quantity;
    }
 	
-   int item::item::getUPC()
+   int item::getUPC()
    {
 	   return this->upc;
    }
    
    
-   int item::item::getShelfLife()
+   int item::getShelfLife()
    {
 	   return this->shelf;
    }

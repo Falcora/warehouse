@@ -21,8 +21,8 @@ namespace inventory
 	warehouse::warehouse(std::string name)
 	{
 		this->name = name;
-		this->busiest = new date();
-		this->inventory = new std::set<item>;
+		this->busiest = date();
+		this->inventory = std::set<item>();
 		this->transactionDayCount = 0;
 	}
 	
@@ -47,8 +47,7 @@ namespace inventory
    {   
 	   int shipped = 0;
 	   
-	   if (this->inventory == NULL)
-		   return 0;
+	  
 	   
 
 	
