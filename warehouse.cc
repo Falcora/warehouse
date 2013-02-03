@@ -12,6 +12,8 @@
 #include "date.h"
 #include "warehouse.h"
 #include <set>
+	
+	using namespace std;
 
 namespace inventory
 {
@@ -45,28 +47,34 @@ namespace inventory
    {   
 	   int shipped = 0;
 	   
-	   if (inventory == NULL)
+	   if (this->inventory == NULL)
 		   return 0;
 	   
-	   std::set<item> *ourinventory;
-	   ourinventory = this->inventory;
+
+	
+	   
+   	item *tempItem = new item(0,0,"temp");
+	   
+	   std::set<item> *ourinventory = this->inventory;
 	   std::set<item>::iterator it;
 	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
 	   {
-		   if (it.getUPC() == upc)
+		   item tempItem = *it;
+		   
+		   if (tempItem.getUPC() == upc)
 		   {
 			   // Found item.  (is this the oldest?  (Should be because it starts at beginning)
-			   if (it.getQuantity >= quantity)
+			   if (tempItem.getQuantity() >= quantity)
 			   {
-				   it.setQuantity(it.getQuantity - quantity);
+				   tempItem.setQuantity(tempItem.getQuantity() - quantity);
 				   shipped = quantity;
 				   transactionDayCount++;
 				   return shipped;
 			   }
-			   else if (it.getQuantity > 0)
+			   else if (tempItem.getQuantity() > 0)
 			   {
-				   int available = it.getQuantity;
-			   	   it.setQuantity(0);
+				   int available = tempItem.getQuantity();
+			   	   tempItem.setQuantity(0);
 				   shipped = available;
 				   transactionDayCount++;
 				   return shipped;
@@ -111,12 +119,15 @@ namespace inventory
    */
    void warehouse::clearExpiredForDay(date current)
    {
-	   ourinventory* = this->inventory;
+		item *tempItem = new item(0,0,"temp");
+	   
+	   std::set<item> *ourinventory = this->inventory;
 	   std::set<item>::iterator it;
 	   date expiration;
 	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
 	   {
-		   expiration = it.getExpiration();
+		   item tempItem = *it;
+		   expiration = tempItem.getExpiration();
 		   if (expiration.getMonth() == current.getMonth())
 		   {
 			   if (expiration.getDay() == current.getDay())
