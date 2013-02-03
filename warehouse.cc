@@ -40,7 +40,7 @@ namespace inventory
    }
    
    
-   int getBusiestCount()
+   int warehouse::getBusiestCount()
    {
 	   return this->busiestCount;
    }
