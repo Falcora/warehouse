@@ -136,19 +136,19 @@ namespace inventory
 		
 	}
 	
-   	date & date::operator= (date & rhs)
-	{
-		if (this == &rhs)  // Compare addresses (not object contents)
-			return *this;
-		
-		this->month = rhs.getMonth();
-		this->day = rhs.getDay();
-		this->year = rhs.getYear();
-		this->set = true;
-		
-		
-		return *this;
-	}
+	//    	date & date::operator= (date & rhs)
+	// {
+	// 	if (this == &rhs)  // Compare addresses (not object contents)
+	// 		return *this;
+	// 	
+	// 	this->month = rhs.getMonth();
+	// 	this->day = rhs.getDay();
+	// 	this->year = rhs.getYear();
+	// 	this->set = true;
+	// 	
+	// 	
+	// 	return *this;
+	// }
 	
 	int date::getMonth()
 	{

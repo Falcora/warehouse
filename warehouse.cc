@@ -21,8 +21,8 @@ namespace inventory
 	warehouse::warehouse(std::string name)
 	{
 		this->name = name;
-		this->busiest = date();
-		this->inventory = NULL;
+		this->busiest = new date();
+		this->inventory = new std::set<item>;
 		this->transactionDayCount = 0;
 	}
 	
@@ -55,9 +55,9 @@ namespace inventory
 	   
    	item *tempItem = new item(0,0,"temp");
 	   
-	   std::set<item> *ourinventory = this->inventory;
+	   // std::set<item> *ourinventory = this->inventory;
 	   std::set<item>::iterator it;
-	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
+	   for (it=this->inventory.begin(); it!=this->inventory.end(); ++it)
 	   {
 		   item tempItem = *it;
 		   
@@ -92,15 +92,17 @@ namespace inventory
    */
    bool warehouse::isInStock(int upc)
    {
-	   std::set<item> *ourinventory;
-	   ourinventory = this->inventory;
+	   // std::set<item> *ourinventory;
+	   // ourinventory = this->inventory;
 	   std::set<item>::iterator it;
-	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
+	   for (it=this->inventory.begin(); it!=this->inventory.end(); ++it)
 	   {
-		   if (it.getUPC() == upc)
+		   item tempItem = *it;
+		   
+		   if (tempItem.getUPC() == upc)
 		   {
 			   // Found item.  
-			   if (it.getQuantity > 0)
+			   if (tempItem.getQuantity() > 0)
 			   {
 				   return true;
 			   }
@@ -121,10 +123,9 @@ namespace inventory
    {
 		item *tempItem = new item(0,0,"temp");
 	   
-	   std::set<item> *ourinventory = this->inventory;
-	   std::set<item>::iterator it;
+		std::set<item>::iterator it;
 	   date expiration;
-	   for (it=ourinventory.begin(); it!=ourinventory.end(); ++it)
+	   for (it=this->inventory.begin(); it!=this->inventory.end(); ++it)
 	   {
 		   item tempItem = *it;
 		   expiration = tempItem.getExpiration();
@@ -134,7 +135,7 @@ namespace inventory
 			   {
 				   if (expiration.getYear() == current.getYear())
 				   {
-					   ourinventory.erase(it);
+					   this->inventory.erase(it);
 				   }
 			   }
 		   }

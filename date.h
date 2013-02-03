@@ -25,7 +25,7 @@
 	   int getDay();
 	   int getYear();
 	   
-    date & operator= (date & rhs);  // Modifies this object
+    // date & operator= (date & rhs);  // Modifies this object
 	   
    private:
 	   int month;

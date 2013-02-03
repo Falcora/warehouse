@@ -19,15 +19,15 @@ namespace inventory
 		this->upc = upc;
 		this->shelf = shelf;
 		this->name = name;
-		this->expiration = NULL;
-		this->quantity = NULL;
+		this->expiration = new date();
+		this->quantity = 0;
 	}
 	
 	item::item(int upc, date expiration, int quantity)
 	{
 		this->upc = upc;
-		this->shelf = NULL;
-		this->name = NULL;
+		this->shelf = 0;
+		this->name = "NULL";
 		this->expiration = expiration;
 		this->quantity = quantity;
 	}
